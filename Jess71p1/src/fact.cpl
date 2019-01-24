@@ -1,0 +1,15 @@
+/* Henry Wiese
+* 1.24.19
+* Calculates the factorial of a number
+*/
+
+/* Calculate the factorial of the parameter n
+* precondition: n is a positive integer
+*/
+
+(deffunction fact (?n)
+   (if (> ?n 0) then (bind ?out (* ?n (fact (- ?n 1))))
+    else (bind ?out 1L))
+   
+   (return ?out)
+)
