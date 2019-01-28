@@ -31,9 +31,14 @@
 */
 (deffunction cAskF ()
    (bind ?f (askQuestion "What positive integer do you want to find the factorial of"))
-   (if (eq TRUE (numberp ?f)) then
-      (bind ?f (long (integer ?f)) (if (>= 0 ?f) then (bind ?out (fact ?f)) else (bind ?out -1)))
-    else (bind ?out -1)
+   (if (eq* TRUE (numberp ?f)) then
+      (bind ?f (long (integer ?f)))
+      (if (>= ?f 0) then 
+         (bind ?out (fact ?f)) 
+       else 
+          (bind ?out -1)
+      )
+    else (bind ?out -2)
    )
    (return ?out)
 )
