@@ -18,7 +18,7 @@
 * Gets a character from the input string using sub-string, explodes,
 * then adds it to a list. Whitespace is removed in the list created by explode$
 * 
-* precondition: ?t must be a string
+* precondition: ?t is a string
 */
 (deffunction slice (?t)
    (bind ?strlen (str-length ?t))
@@ -31,6 +31,7 @@
 
 /* 
 * Converts a string to lowercase, then calls slice on the string
+* precondition: ?t is a string
 */
 (deffunction lowSlice (?t)
    (return (slice (lowcase ?t)))
@@ -42,6 +43,7 @@
 * in alphabetical order.
 * 
 * Create a 26 long list, then the index is for each character
+* precondition: ?t is a string
 */
 (deffunction alHis (?t)
    (bind ?t (lowSlice ?t))

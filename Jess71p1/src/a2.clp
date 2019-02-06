@@ -8,7 +8,7 @@
 */
 
 (batch utilities.clp)
-(bind ?ALPHABET (slice "abcdefghijklmnopqrstuvwxyz"))  
+(bind ?ALPHABET (slice "abcdefghijklmnopqrstuvwxyz")) ; !question
 (bind ?NUM_LETTERS (length$ ?ALPHABET))
 
 /* 
@@ -43,6 +43,7 @@
 * in alphabetical order.
 * 
 * Create a 26 long list, then the index is for each character
+* precondition: ?t is a string
 */
 (deffunction alHis (?t)
    (bind ?t (lowSlice ?t))
@@ -60,10 +61,9 @@
       )
    )
 
-   (printline " ") ; list prints one line after "Jess>"
 
    (for (bind ?i 1) (<= ?i ?NUM_LETTERS) (++ ?i)
-      (print (nth$ ?i ?ALPHABET)) (print ": ")
+      (print (nth$ ?i ?ALPHABET)) (print ": ") ;!question
       (printline (nth$ ?i ?l))
    )
    (return)
@@ -71,6 +71,8 @@
 
 /*
 * Returns the count of each letter in a string
+* 
+* precondition: ?t is a string
 */
 (deffunction letCount (?t)
    (bind ?t (lowSlice ?t))
@@ -91,7 +93,8 @@
 )
 
 /* 
-* prints the output of letCount graphically
+* prints the output of the number of letters in a string graphically
+* precondition: ?t is a string
 */
 (deffunction letGraph (?t)
    (bind ?l (letCount ?t))
