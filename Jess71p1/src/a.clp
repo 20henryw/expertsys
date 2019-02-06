@@ -5,6 +5,7 @@
 * Collection of functions to count the number of letters in a paragraph of text,
 * and then creates an alphabetic histogram listing the number of times each
 * letter appears.
+*
 */
 
 (batch utilities.clp)
@@ -63,7 +64,8 @@
 
 
    (for (bind ?i 1) (<= ?i ?NUM_LETTERS) (++ ?i) ; 
-      (printline (nth$ ?i ?l))
+      ;(printline (nth$ ?i ?l))
+      (printline (format nil "%c: %d" (+ 96 ?i) (nth$ ?i ?l)))
    )
    (return)
 )

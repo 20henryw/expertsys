@@ -8,7 +8,9 @@
 */
 
 (batch utilities.clp)
-(bind ?ALPHABET (slice "abcdefghijklmnopqrstuvwxyz")) ; !question
+
+; !question
+(bind ?ALPHABET (create$ a b c d e f g h i j k l m n o p q r s t u v w x y z)) 
 (bind ?NUM_LETTERS (length$ ?ALPHABET))
 
 /* 
@@ -29,6 +31,7 @@
    )
    (return ?l)
 )
+
 
 /* 
 * Converts a string to lowercase, then calls slice on the string
@@ -61,10 +64,11 @@
       )
    )
 
-
    (for (bind ?i 1) (<= ?i ?NUM_LETTERS) (++ ?i)
-      (print (nth$ ?i ?ALPHABET)) (print ": ") ;!question
-      (printline (nth$ ?i ?l))
+      ;(print (nth$ ?i ?ALPHABET)) (print ": ") ;!question
+      ;(printline (nth$ ?i ?l))
+      (printline (format nil "%c: %d" (+ 96 ?i) (nth$ ?i ?l)))
+
    )
    (return)
 )
