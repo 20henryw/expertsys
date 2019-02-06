@@ -5,7 +5,7 @@
 * fibo         - returns first n numbers of the fibonacci sequence
 * isPosInteger - returns TRUE if the input is a positive integer value, else FALSE
 * fibonacci    - validates input with isPosInteger, then calls fibo
-* fib          - prompts user for input, runs fibonacci
+* fib          - prompts user for input, then runs fibonacci
 */
 
 (batch utilities.clp)
