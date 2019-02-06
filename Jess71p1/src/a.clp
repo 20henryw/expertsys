@@ -52,14 +52,13 @@
 
    (foreach ?c ?t
       (bind ?cAsc (asc ?c))
-      (if (or (and (>= ?cAsc (asc a)) (<= ?cAsc (asc z))) (and (>= ?cAsc (asc A)) (<= ?cAsc (asc Z)))) then
+      (if  (and (>= ?cAsc (asc a)) (<= ?cAsc (asc z))) then
     
          (bind ?ind (- (asc ?c) (- (asc a) 1)))   ; index of char in the char array
          (bind ?l (replace$ ?l ?ind ?ind (+ 1 (nth$ ?ind ?l))))
       )
    )
 
-   (printline " ") ; list prints one line after "Jess>"
 
    (for (bind ?i 1) (<= ?i ?NUM_LETTERS) (++ ?i) ; 
       (printline (nth$ ?i ?l))
