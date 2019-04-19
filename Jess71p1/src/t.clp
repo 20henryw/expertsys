@@ -40,7 +40,7 @@
 (do-backward-chaining pink)      ; is it pink
 (do-backward-chaining trunk)     ; does it have a trunk
 (do-backward-chaining herbivore) ; is it an herbivore
-(do-backward-chaining skeleton)  ; does it have a skeleton
+(do-backward-chaining skeleton)  ; does it have an endoskeleton
 (do-backward-chaining marsupial) ; is it a marsupial
 
 (defglobal ?*qNum* = 0) ; The number of questions that have been asked. Initially zero.
@@ -54,6 +54,7 @@
    )
    (return ?out)
 )
+
 /*
 * Concatenates "I think your animal is a " and ?s and prints the string
 * Asserts the fact done to let the system know it has found a solution and
@@ -128,123 +129,65 @@
    (return)
 )
 
-
-(defrule mammalBackward "Rule to backwards chain the trait mammal"
-   (need-mammal ?)
-   =>
-   (assertTrait mammal "Is it a mammal")
+/*
+* This function was inspired by Neil Ramaswamy, who advocated for extensibility 
+* in my program.
+*
+* Creates a string that is built into a backwrads chained rule for the trait.
+* If the fact is needed, it will call (assertTrait)
+*
+* ?t - trait
+* ?q - question
+*/
+(deffunction buildBackwardsRule (?t ?q)
+	(bind ?out "(defrule ")
+	(bind ?out (str-cat ?out ?t "Backward"))
+	(bind ?out (str-cat ?out "(need-" ?t " ?) => (assertTrait " ?t " \"" ?q "\"))"))
+	(build ?out)
+	(return)
 )
 
-(defrule swimBackward "Rule to backwards chain the trait swim"
-   (need-swim ?)
-   =>
-   (assertTrait swim "Does it normally swim")
-)
+/*
+* The idea for extensibility came from Neil Ramaswamy
+*/
+(buildBackwardsRule mammal    "Is it a mammal")
+(buildBackwardsRule swim      "Does it normally swim")
+(buildBackwardsRule twoLegs   "Does it have only two legs")
+(buildBackwardsRule fourLegs  "Does it have only four legs")
+(buildBackwardsRule farm      "Is it a farm animal")
+(buildBackwardsRule fly       "Does it fly")
+(buildBackwardsRule equine    "Is it equine")
+(buildBackwardsRule striped   "Is it striped")
+(buildBackwardsRule pet       "Is it a pet")
+(buildBackwardsRule feline    "Is it feline")
+(buildBackwardsRule reptile   "Is it a reptile")
+(buildBackwardsRule mascot    "Is it the American mascot")
+(buildBackwardsRule pink      "Is it pink")
+(buildBackwardsRule trunk     "Is it a mammal")
+(buildBackwardsRule herbivore "Is it a mammal")
+(buildBackwardsRule skeleton  "Does it have an endoskeleton")
+(buildBackwardsRule marsupial "Is it a marsupial")
 
-(defrule twoLegsBackward "Rule to backwards chain the trait twoLegs"
-   (need-twoLegs ?)
+(defrule mammalYes "if mammal is yes, assert no to conflicting traits"
+   (mammal yes)
    =>
-   (assertTrait twoLegs "Does it have only 2 legs")
+   (printline "asserting reptile to no")
+   (assert reptile no)
 )
-
-(defrule fourLegsBackward "Rule to backwards chain the trait fourLegs"
-   (need-fourLegs ?)
-   =>
-   (assertTrait fourLegs "Does it have only 4 legs")
-)
-	
-(defrule farmBackward "Rule to backwards chain the trait farm"
-   (need-farm ?)
-   =>
-   (assertTrait farm "Is it a farm animal")
-)
-
-(defrule flyBackward "Rule to backwards chain the trait fly"
-   (need-fly ?)
-   =>
-   (assertTrait fly "Does it fly")
-)
-
-(defrule equineBackward "Rule to backwards chain the trait equine"
-   (need-equine ?)
-   =>
-   (assertTrait equine "Is it equine")
-)
-
-(defrule stripedBackward "Rule to backwards chain the trait striped"
-   (need-striped ?)
-   =>
-   (assertTrait striped "Is it striped")
-)
-
-(defrule petBackward "Rule to backwards chain the trait pet"
-   (need-pet ?)
-   =>
-   (assertTrait pet "Is it a pet")
-)
-
-(defrule felineBackward "Rule to backwards chain the trait feline"
-   (need-feline ?)
-   =>
-   (assertTrait feline "Is it feline")
-)
-
-(defrule reptileBackward "Rule to backwards chain the trait feline"
-   (need-reptile ?)
-   =>
-   (assertTrait reptile "Is it a reptile")
-)
-
-(defrule mascotBackward "Rule to backwards chain the trait mascot"
-   (need-mascot ?)
-   =>
-   (assertTrait mascot "Is it the American mascot")
-)
-
-(defrule pinkBackward "Rule to backwards chain the trait pink"
-   (need-pink ?)
-   =>
-   (assertTrait pink "Is it pink")
-)
-
-(defrule trunkBackward "Rule to backwards chain the trait trunk"
-   (need-trunk ?)
-   =>
-   (assertTrait trunk "Does it have a trunk")
-)
-
-(defrule herbivoreBackward "Rule to backwards chain the trait herbivore"
-   (need-herbivore ?)
-   =>
-   (assertTrait herbivore "Is it an herbivore")
-)
-
-(defrule skeletonBackward "Rule to backwards chain the trait skeleton"
-   (need-skeleton ?)
-   =>
-   (assertTrait skeleton "Does it have an endoskeleton")
-)
-
-(defrule marsupialBackward "Rule to backwards chain the trait marsupial"
-   (need-marsupial ?)
-   =>
-   (assertTrait marsupial "Is it a marsupial")
-)
-
 
 (defrule whale "matches traits to a whale"
-	(mammal yes)
-	(swim yes)
-	=>
-	(guess "whale")
+   (mammal yes)
+   (swim yes)
+   =>
+   (guess "whale")
 )
 
 (defrule fish "matches traits to a fish"
-	(mammal no)
+   (mammal no)
    (skeleton yes)
    (swim yes)
-	=>
-	(guess "fish")
+   =>
+   (guess "fish")
 )
 
 (defrule human "matches traits to a human"
